@@ -5,7 +5,7 @@ import { setupWebSocket } from "./websocket";
 import { setupWearableRoutes } from "./wearable";
 import { db } from "@db";
 import { challenges, participations, transactions, users, achievements } from "@db/schema";
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, sql } from "drizzle-orm";
 import { z } from "zod";
 
 const isAuthenticated = (req: any, res: any, next: any) => {
@@ -236,7 +236,7 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  // Leaderboard route
+  // Leaderboard route with enhanced user stats
   app.get("/api/leaderboard", isAuthenticated, async (req, res) => {
     try {
       const leaderboard = await db
@@ -244,14 +244,60 @@ export function registerRoutes(app: Express): Server {
           id: users.id,
           username: users.username,
           points: users.points,
-          level: users.level
+          level: users.level,
         })
         .from(users)
         .orderBy(desc(users.points))
         .limit(10);
 
-      res.json(leaderboard);
+      // Fetch additional stats for each user
+      const enhancedLeaderboard = await Promise.all(
+        leaderboard.map(async (user) => {
+          // Get user achievements
+          const userAchievements = await db
+            .select()
+            .from(achievements)
+            .where(eq(achievements.userId, user.id))
+            .orderBy(desc(achievements.unlockedAt))
+            .limit(3);
+
+          // Get completed challenges count
+          const [{ completedCount }] = await db
+            .select({
+              completedCount: sql<number>`count(*)::int`,
+            })
+            .from(participations)
+            .where(
+              and(
+                eq(participations.userId, user.id),
+                eq(participations.completed, true)
+              )
+            );
+
+          // Calculate win rate
+          const [{ totalChallenges }] = await db
+            .select({
+              totalChallenges: sql<number>`count(*)::int`,
+            })
+            .from(participations)
+            .where(eq(participations.userId, user.id));
+
+          const winRate = totalChallenges > 0
+            ? Math.round((completedCount / totalChallenges) * 100)
+            : 0;
+
+          return {
+            ...user,
+            achievements: userAchievements,
+            completedChallenges: completedCount,
+            winRate,
+          };
+        })
+      );
+
+      res.json(enhancedLeaderboard);
     } catch (error) {
+      console.error("Failed to fetch leaderboard:", error);
       res.status(500).send("Failed to fetch leaderboard");
     }
   });
