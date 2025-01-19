@@ -10,13 +10,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useForm } from "react-hook-form";
 import { useChallenges } from "@/hooks/use-challenges";
 import { useToast } from "@/hooks/use-toast";
+import { Watch } from "lucide-react";
+import { useLocation } from "wouter";
 
 export default function Home() {
   const { user, logout } = useUser();
   const { challenges, createChallenge } = useChallenges();
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
-  
+  const [_, setLocation] = useLocation();
+
   const form = useForm({
     defaultValues: {
       title: "",
@@ -52,6 +55,10 @@ export default function Home() {
             Commit.ai
           </h1>
           <div className="flex items-center gap-4">
+            <Button variant="ghost" onClick={() => setLocation('/devices')}>
+              <Watch className="h-4 w-4 mr-2" />
+              Devices
+            </Button>
             <div className="text-sm text-muted-foreground">
               Level {user?.level} | {user?.points} points
             </div>
@@ -152,14 +159,14 @@ export default function Home() {
                 </DialogContent>
               </Dialog>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {challenges?.map((challenge) => (
                 <ChallengeCard key={challenge.id} challenge={challenge} />
               ))}
             </div>
           </div>
-          
+
           <div className="space-y-6">
             <Leaderboard />
           </div>

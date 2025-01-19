@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { setupWebSocket } from "./websocket";
+import { setupWearableRoutes } from "./wearable";
 import { db } from "@db";
 import { challenges, participations, transactions, users, achievements } from "@db/schema";
 import { eq, desc, and } from "drizzle-orm";
@@ -17,6 +18,9 @@ const isAuthenticated = (req: any, res: any, next: any) => {
 export function registerRoutes(app: Express): Server {
   // Set up authentication routes
   setupAuth(app);
+
+  // Set up wearable device routes
+  setupWearableRoutes(app);
 
   // Create HTTP server
   const httpServer = createServer(app);

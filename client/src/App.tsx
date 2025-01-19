@@ -6,6 +6,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import AuthPage from "@/pages/auth-page";
 import Challenge from "@/pages/challenge";
+import Devices from "@/pages/devices";
 import { useUser } from "@/hooks/use-user";
 import { Loader2 } from "lucide-react";
 
@@ -28,6 +29,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/challenge/:id" component={Challenge} />
+      <Route path="/devices" component={Devices} />
       <Route component={NotFound} />
     </Switch>
   );
