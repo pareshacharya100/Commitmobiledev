@@ -9,7 +9,7 @@ interface MotionTrackerProps {
 }
 
 export default function MotionTracker({ exerciseType, onRepCount }: MotionTrackerProps) {
-  const { videoRef, count, isTracking, startTracking, stopTracking } = useMotion(exerciseType);
+  const { videoRef, canvasRef, count, isTracking, startTracking, stopTracking } = useMotion(exerciseType);
 
   return (
     <Card>
@@ -23,13 +23,24 @@ export default function MotionTracker({ exerciseType, onRepCount }: MotionTracke
         <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
           <video
             ref={videoRef}
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover"
             playsInline
+          />
+          <canvas
+            ref={canvasRef}
+            className="absolute inset-0 w-full h-full"
+            width={640}
+            height={480}
           />
           <div className="absolute inset-0 flex items-center justify-center">
             {!isTracking && (
-              <div className="text-white text-center">
+              <div className="text-white text-center bg-black/50 p-4 rounded-lg">
                 <p className="mb-2">Position yourself in view</p>
+                <p className="text-sm mb-4 text-gray-300">
+                  {exerciseType === 'pushup' && 'Face the camera from the side for push-ups'}
+                  {exerciseType === 'squat' && 'Face the camera from the side for squats'}
+                  {exerciseType === 'situp' && 'Position camera to see your full body for sit-ups'}
+                </p>
                 <Button onClick={startTracking} size="sm">
                   <Play className="w-4 h-4 mr-2" />
                   Start Tracking
