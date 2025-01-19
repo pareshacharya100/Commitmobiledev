@@ -16,11 +16,14 @@ export const challenges = pgTable("challenges", {
   creatorId: integer("creator_id").references(() => users.id).notNull(),
   title: text("title").notNull(),
   description: text("description").notNull(),
-  type: text("type").notNull(), 
+  type: text("type").notNull(),
   targetReps: integer("target_reps").notNull(),
   betAmount: decimal("bet_amount").notNull(),
   status: text("status").default("active").notNull(),
   endDate: timestamp("end_date").notNull(),
+  visibility: text("visibility").default("public").notNull(),
+  teamSize: integer("team_size").default(1).notNull(),
+  verificationMethod: text("verification_method").default("camera").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull()
 });
 
@@ -47,7 +50,7 @@ export const transactions = pgTable("transactions", {
   userId: integer("user_id").references(() => users.id).notNull(),
   challengeId: integer("challenge_id").references(() => challenges.id).notNull(),
   amount: decimal("amount").notNull(),
-  type: text("type").notNull(), 
+  type: text("type").notNull(),
   status: text("status").default("pending").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull()
 });
@@ -55,13 +58,13 @@ export const transactions = pgTable("transactions", {
 export const wearableDevices = pgTable("wearable_devices", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").references(() => users.id).notNull(),
-  deviceType: text("device_type").notNull(), 
+  deviceType: text("device_type").notNull(),
   deviceId: text("device_id").notNull(),
   accessToken: text("access_token").notNull(),
   refreshToken: text("refresh_token"),
   tokenExpiresAt: timestamp("token_expires_at"),
   lastSyncedAt: timestamp("last_synced_at"),
-  metadata: jsonb("metadata"), 
+  metadata: jsonb("metadata"),
   createdAt: timestamp("created_at").defaultNow().notNull()
 });
 
@@ -72,12 +75,12 @@ export const wearableActivities = pgTable("wearable_activities", {
   activityType: text("activity_type").notNull(),
   startTime: timestamp("start_time").notNull(),
   endTime: timestamp("end_time").notNull(),
-  duration: integer("duration").notNull(), 
+  duration: integer("duration").notNull(),
   calories: integer("calories"),
   steps: integer("steps"),
-  distance: decimal("distance"), 
-  heartRate: jsonb("heart_rate"), 
-  rawData: jsonb("raw_data"), 
+  distance: decimal("distance"),
+  heartRate: jsonb("heart_rate"),
+  rawData: jsonb("raw_data"),
   createdAt: timestamp("created_at").defaultNow().notNull()
 });
 
