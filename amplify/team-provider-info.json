@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-commitchallenge-dev-82e86-authRole",
+      "UnauthRoleArn": "arn:aws:iam::545009848318:role/amplify-commitchallenge-dev-82e86-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::545009848318:role/amplify-commitchallenge-dev-82e86-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-commitchallenge-dev-82e86-deployment",
+      "UnauthRoleName": "amplify-commitchallenge-dev-82e86-unauthRole",
+      "StackName": "amplify-commitchallenge-dev-82e86",
+      "StackId": "arn:aws:cloudformation:us-east-1:545009848318:stack/amplify-commitchallenge-dev-82e86/d88cb420-e139-11ef-87f1-1239f5bc6411",
+      "AmplifyAppId": "d3jk7jbtu4dj6w"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d3jk7jbtu4dj6w",
+          "type": "cicd"
+        }
+      }
+    }
+  }
+}
