@@ -1,4 +1,22 @@
 {
+  "api": {
+    "commitchallenge": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            },
+            "authenticationType": "API_KEY"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  },
   "hosting": {
     "amplifyhosting": {
       "lastPushTimeStamp": "2025-02-02T08:01:42.519Z",

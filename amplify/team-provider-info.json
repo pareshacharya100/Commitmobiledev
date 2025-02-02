@@ -19,5 +19,26 @@
         }
       }
     }
+  },
+  "commit": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-commitchallenge-commit-ef038-authRole",
+      "UnauthRoleArn": "arn:aws:iam::545009848318:role/amplify-commitchallenge-commit-ef038-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::545009848318:role/amplify-commitchallenge-commit-ef038-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-commitchallenge-commit-ef038-deployment",
+      "UnauthRoleName": "amplify-commitchallenge-commit-ef038-unauthRole",
+      "StackName": "amplify-commitchallenge-commit-ef038",
+      "StackId": "arn:aws:cloudformation:us-east-1:545009848318:stack/amplify-commitchallenge-commit-ef038/0943d1c0-e144-11ef-9b89-0ed9ace82adf",
+      "AmplifyAppId": "dpp8lt46ya3sb"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dpp8lt46ya3sb",
+          "type": "cicd"
+        }
+      }
+    }
   }
 }
