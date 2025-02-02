@@ -38,6 +38,9 @@
           "appId": "dpp8lt46ya3sb",
           "type": "cicd"
         }
+      },
+      "api": {
+        "commitchallenge": {}
       }
     }
   }
