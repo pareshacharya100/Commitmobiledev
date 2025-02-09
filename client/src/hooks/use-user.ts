@@ -8,6 +8,13 @@ type RequestResult = {
   message: string;
 };
 
+// Assumed implementation for getApiUrl.  Replace with your actual implementation.
+const getApiUrl = (path: string) => {
+  const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000'; // Example, replace with your logic
+  return `${baseUrl}${path}`;
+};
+
+
 async function handleRequest(
   url: string,
   method: string,

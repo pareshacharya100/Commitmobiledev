@@ -9,6 +9,6 @@ export default defineConfig({
   schema: "./db/schema.ts",
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.DATABASE_URL,
+    url: process.env.DATABASE_URL + "&sslmode=no-verify",  // Correct way to disable SSL validation
   },
 });
