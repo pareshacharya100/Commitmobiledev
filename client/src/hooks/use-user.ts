@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { InsertUser, SelectUser } from "@db/schema";
+import { getApiUrl } from "@/utils"; // ✅ Ensure getApiUrl is imported
 
 type RequestResult = {
   ok: true;
@@ -8,20 +9,13 @@ type RequestResult = {
   message: string;
 };
 
-// Assumed implementation for getApiUrl.  Replace with your actual implementation.
-const getApiUrl = (path: string) => {
-  const baseUrl = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000'; // Example, replace with your logic
-  return `${baseUrl}${path}`;
-};
-
-
 async function handleRequest(
-  url: string,
+  path: string,  // ✅ Accept only relative API path
   method: string,
   body?: InsertUser
 ): Promise<RequestResult> {
   try {
-    const response = await fetch(url, {
+    const response = await fetch(getApiUrl(path), {  // ✅ Use getApiUrl()
       method,
       headers: body ? { "Content-Type": "application/json" } : undefined,
       body: body ? JSON.stringify(body) : undefined,
@@ -44,7 +38,7 @@ async function handleRequest(
 }
 
 async function fetchUser(): Promise<SelectUser | null> {
-  const response = await fetch('/api/user', {
+  const response = await fetch(getApiUrl('/user'), {  // ✅ Dynamically get API URL
     credentials: 'include'
   });
 
@@ -74,21 +68,21 @@ export function useUser() {
   });
 
   const loginMutation = useMutation<RequestResult, Error, InsertUser>({
-    mutationFn: (userData) => handleRequest('/api/login', 'POST', userData),
+    mutationFn: (userData) => handleRequest('/login', 'POST', userData),  // ✅ Removed "/api/"
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
   });
 
   const logoutMutation = useMutation<RequestResult, Error>({
-    mutationFn: () => handleRequest('/api/logout', 'POST'),
+    mutationFn: () => handleRequest('/logout', 'POST'),  // ✅ Removed "/api/"
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
   });
 
   const registerMutation = useMutation<RequestResult, Error, InsertUser>({
-    mutationFn: (userData) => handleRequest('/api/register', 'POST', userData),
+    mutationFn: (userData) => handleRequest('/register', 'POST', userData),  // ✅ Removed "/api/"
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },

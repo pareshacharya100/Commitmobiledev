@@ -1,14 +1,15 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
+// Utility function to merge Tailwind CSS classes
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
-//export const API_BASE_URL = 'http://0.0.0.0:5000';
-// utils.ts or wherever the API base URL is set
-export const API_BASE_URL = 'https://g54o6fybobhj3hc2v24z6guqhi.appsync-api.us-east-1.amazonaws.com/graphql';
+// ✅ Set API Base URL to Elastic Beanstalk Backend
+export const API_BASE_URL = 'https://my-backend-env.eba-whdzg3qj.us-east-1.elasticbeanstalk.com';
 
+// ✅ Ensure API requests correctly append `/api/`
 export function getApiUrl(path: string) {
-  return `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
+  return `${API_BASE_URL}/api${path.startsWith('/') ? path : `/${path}`}`;
 }
