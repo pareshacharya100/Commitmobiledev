@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { InsertUser, SelectUser } from "@db/schema";
-import { getApiUrl } from "@/utils"; // ✅ Ensure getApiUrl is imported
+import { getApiUrl } from "../lib/utils";
 
 type RequestResult = {
   ok: true;
