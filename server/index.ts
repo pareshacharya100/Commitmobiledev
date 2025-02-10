@@ -6,6 +6,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// ✅ Add a Health Check Endpoint
+app.get("/health", (_req, res) => {
+  res.json({ status: "OK" });
+});
+
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -36,31 +41,26 @@ app.use((req, res, next) => {
   next();
 });
 
-(async () => {
-  const server = registerRoutes(app);
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  const status = err.status || err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+  res.status(status).json({ message });
+  throw err;
+});
 
-    res.status(status).json({ message });
-    throw err;
-  });
+// ✅ Ensure Vite is only used in development
+if (app.get("env") === "development") {
+  await setupVite(app);
+}
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
+// ✅ Register Routes AFTER Vite Setup
+registerRoutes(app);
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client
-  //const PORT = 5000;
-  const PORT = process.env.PORT || 8080;
-  server.listen(PORT, "0.0.0.0", () => {
-    log(`serving on port ${PORT}`);
-  });
-})();
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, "0.0.0.0", () => {
+  log(`Server is running on port ${PORT}`);
+});
+
+// ✅ Move `serveStatic(app)` to the end to avoid conflicts
+serveStatic(app);
