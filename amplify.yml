@@ -8,7 +8,7 @@ frontend:
       commands:
         - NODE_OPTIONS=--openssl-legacy-provider npm run build
   artifacts:
-    baseDirectory: dist/public  # This should point to the correct build folder
+    baseDirectory: dist  # This should point to the correct build folder
     files:
       - '**/*'  # This will include all files inside dist/public
   cache:
