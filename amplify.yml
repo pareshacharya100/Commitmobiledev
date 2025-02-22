@@ -8,15 +8,9 @@ frontend:
       commands:
         - NODE_OPTIONS=--openssl-legacy-provider npm run build
   artifacts:
-    baseDirectory: dist  # This should point to the correct build folder
+    baseDirectory: dist  # Change from dist/public to dist
     files:
-      - '**/*'  # This will include all files inside dist/public
+      - '**/*'
   cache:
     paths:
       - node_modules/**/*
-
-# Add a rewrite rule for Single Page Application (SPA) routing
-redirects:
-  - source: "/*"
-    target: "/index.html"
-    status: "200"
