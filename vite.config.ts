@@ -16,14 +16,14 @@ export default defineConfig({
       "@": path.resolve(__dirname, "client", "src"),
     },
   },
-  root: path.resolve(__dirname, "client"),
+  root: path.resolve(__dirname, "client"), // Ensure client folder is the root
   build: {
     outDir: path.resolve(__dirname, "dist/public"), // Ensure correct frontend build directory
     emptyOutDir: true, // Clears previous builds
   },
   server: {
     port: 3000, // Optional: Set a default local development port
-    strictPort: true, // Ensures no random port assignment
-    open: true, // Opens browser on local run
+    strictPort: true,
+    open: true,
   },
 });

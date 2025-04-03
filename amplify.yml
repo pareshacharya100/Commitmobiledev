@@ -8,7 +8,7 @@ frontend:
       commands:
         - NODE_OPTIONS=--openssl-legacy-provider npm run build
   artifacts:
-    baseDirectory: dist  # Change from dist/public to dist
+    baseDirectory: dist/public  # Ensure this matches your actual output path
     files:
       - '**/*'
   cache:
