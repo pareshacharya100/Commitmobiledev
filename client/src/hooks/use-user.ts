@@ -38,7 +38,6 @@ async function handleRequest(
 }
 
 async function fetchUser(): Promise<SelectUser | null> {
-  console.log("✅ Calling fetchUser with URL:", getApiUrl('/user'));
   const response = await fetch(getApiUrl('/user'), {  // ✅ Dynamically get API URL
     credentials: 'include'
   });
