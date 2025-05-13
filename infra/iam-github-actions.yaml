@@ -1,0 +1,37 @@
+Resources:
+  GitHubDeployUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: CommitAI-GitHub-User
+      Policies:
+        - PolicyName: DeployPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource: "arn:aws:s3:::commitai-deployments/*"
+              - Effect: Allow
+                Action:
+                  - elasticbeanstalk:*
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+
+  GitHubDeployAccessKey:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName: !Ref GitHubDeployUser
+
+Outputs:
+  AccessKeyId:
+    Value: !Ref GitHubDeployAccessKey
+    Description: AWS Access Key ID
+
+  SecretAccessKey:
+    Value: !GetAtt GitHubDeployAccessKey.SecretAccessKey
+    Description: AWS Secret Access Key
